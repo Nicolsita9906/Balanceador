@@ -1,4 +1,3 @@
-version: '3'
 services:
   frontend:
     build: ./frontend
@@ -6,6 +5,14 @@ services:
   backend:
     build: ./backend
     container_name: backend
+    networks:
+      - new_net
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    networks:
+      - new_net
   nginx:
     build: ./nginx
     ports:
@@ -13,3 +20,11 @@ services:
     depends_on:
       - frontend
       - backend
+      - adminer
+    networks:
+      - new_net
+
+networks:
+  new_net:
+    driver: bridge
+    name: new_net
